@@ -1,6 +1,14 @@
 # Add files here to ignore them from prettier formatting
+/node_modules
 /dist
 /coverage
-/.nx/cache
-/.nx/workspace-data
+/.nx
+/.angular
+/*.config.cjs
+/*.config.js
+/.prettierrc
+/.prettierrc.js
+/.prettierrc.json
+jest.preset.js
+
 .angular
