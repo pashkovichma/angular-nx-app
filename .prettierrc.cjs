@@ -4,9 +4,13 @@ module.exports = {
   semi: true,
   useTabs: false,
   tabWidth: 2,
-  printWidth: 100,
+  printWidth: 120,
+  quoteProps: 'as-needed',
+  proseWrap: 'preserve',
+  singleAttributePerLine: true,
+  bracketSpacing: true,
   arrowParens: 'always',
-  endOfLine: 'lf',
+  endOfLine: 'auto',
 
   plugins: [
     'prettier-plugin-organize-imports',
@@ -22,7 +26,7 @@ module.exports = {
     },
     {
       files: ['*.html'],
-      parser: 'html'
+      parser: 'angular'
     },
 
   {
