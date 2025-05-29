@@ -1,14 +1,18 @@
 # Add files here to ignore them from prettier formatting
-/node_modules
-/dist
-/coverage
-/.nx
-/.angular
+node_modules
+dist
+coverage
+
+.nx
+.angular
+
 /*.config.cjs
 /*.config.js
+
 /.prettierrc
 /.prettierrc.js
-/.prettierrc.json
-jest.preset.js
+/.prettierrc.cjs
+/prettier.config.js
 
-.angular
+/jest.preset.js
+/Dockerfile
