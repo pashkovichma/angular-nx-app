@@ -8,7 +8,15 @@
     "format": "prettier --write \"**/*.{ts,js,html,json,css}\"",
     "format:check": "prettier --check \"**/*.{ts,js,html,json,css}\"",
     "lint": "nx run-many --target=lint --all",
-    "lint:fix": "nx run demo:lint --fix"
+    "lint:fix": "nx run demo:lint --fix",
+    
+    "start:demo:dev":  "nx serve demo --configuration=dev",
+    "start:demo:uat":  "nx serve demo --configuration=uat",
+    "start:demo:prod": "nx serve demo --configuration=production",
+
+    "build:demo:dev":  "nx build demo --configuration=dev",
+    "build:demo:uat":  "nx build demo --configuration=uat",
+    "build:demo:prod": "nx build demo --configuration=production"
   },
   "dependencies": {
     "@angular/common": "~19.2.0",
