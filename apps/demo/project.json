@@ -34,6 +34,12 @@
       },
       "configurations": {
         "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/demo/src/environments/environment.ts",
+              "with":    "apps/demo/src/environments/environment.prod.ts"
+            }
+          ],
           "budgets": [
             {
               "type": "initial",
@@ -48,10 +54,28 @@
           ],
           "outputHashing": "all"
         },
-        "development": {
+        "dev": {
+          "fileReplacements": [
+            {
+              "replace": "apps/demo/src/environments/environment.ts",
+              "with":    "apps/demo/src/environments/environment.dev.ts"
+            }
+          ],
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
+        },
+        "uat": {
+          "fileReplacements": [
+            {
+              "replace": "apps/demo/src/environments/environment.ts",
+              "with":    "apps/demo/src/environments/environment.uat.ts"
+            }
+          ],
+          "optimization": true,
+          "extractLicenses": true,
+          "sourceMap": false,
+          "outputHashing": "all"
         }
       },
       "defaultConfiguration": "production"
@@ -63,11 +87,14 @@
         "production": {
           "buildTarget": "demo:build:production"
         },
-        "development": {
-          "buildTarget": "demo:build:development"
+        "dev": {
+          "buildTarget": "demo:build:dev"
+        },
+        "uat": {
+          "buildTarget": "demo:build:uat"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "dev"
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
