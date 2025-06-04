@@ -16,7 +16,8 @@
         "index": "apps/demo/src/index.html",
         "browser": "apps/demo/src/main.ts",
         "polyfills": [
-          "zone.js"
+          "zone.js",
+          "apps/demo/src/polyfills.ts"
         ],
         "tsConfig": "apps/demo/tsconfig.app.json",
         "assets": [
