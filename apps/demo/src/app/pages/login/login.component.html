@@ -1,0 +1,41 @@
+<div class="login-container">
+  <h2>Login to MockAPI</h2>
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        name="email"
+        [(ngModel)]="email"
+        type="email"
+        required
+        autocomplete="username"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        name="password"
+        [(ngModel)]="password"
+        type="password"
+        required
+        autocomplete="current-password"
+      />
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="full-width"
+    >
+      Login
+    </button>
+  </form>
+
+  <p *ngIf="loginResult === null" class="result-text">
+    Incorrect email or password
+  </p>
+</div>
