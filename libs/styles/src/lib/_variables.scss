@@ -1,0 +1,34 @@
+@use 'colors/azure-blue' as colors;
+@use 'sizes/spacing' as sizes;
+@use 'typography/fonts' as type;
+
+$primary-color: colors.$azure-blue-primary;
+$secondary-color: colors.$azure-blue-secondary;
+$accent-color: colors.$azure-blue-accent;
+$light-color: colors.$azure-blue-light;
+$dark-color: colors.$azure-blue-dark;
+$muted-color: colors.$azure-blue-muted;
+
+$font-base-family: type.$font-family-base;
+$font-heading-family: type.$font-family-heading;
+
+$font-size-base: type.$font-size-base;
+$line-height-base: type.$line-height-base;
+
+$spacing-base: sizes.$spacing-md;
+$border-radius: sizes.$border-radius-md;
+
+:root {
+  --color-primary: #{$primary-color};
+  --color-secondary: #{$secondary-color};
+  --color-accent: #{$accent-color};
+  --color-light: #{$light-color};
+  --color-dark: #{$dark-color};
+  --color-muted: #{$muted-color};
+
+  --font-base: #{$font-base-family};
+  --font-size-base: #{$font-size-base};
+  --line-height-base: #{$line-height-base};
+  --spacing-base: #{$spacing-base};
+  --border-radius: #{$border-radius};
+}
