@@ -1,28 +1,38 @@
 <div class="login-container">
   <h2>Login to MockAPI</h2>
-  <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="login-form">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form" novalidate>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
       <input
         matInput
-        name="email"
-        [(ngModel)]="email"
+        formControlName="email"
         type="email"
-        required
         autocomplete="username"
+        placeholder="Enter email"
       />
+      <mat-error *ngIf="emailCtrl?.touched && emailCtrl?.invalid">
+        <span *ngIf="emailCtrl?.errors?.['required']">Email is required.</span>
+        <span *ngIf="emailCtrl?.errors?.['email']">Please enter a valid email.</span>
+      </mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Password</mat-label>
       <input
         matInput
-        name="password"
-        [(ngModel)]="password"
+        formControlName="password"
         type="password"
-        required
         autocomplete="current-password"
+        placeholder="Enter password"
       />
+      <mat-error *ngIf="passwordCtrl?.touched && passwordCtrl?.invalid">
+        <span *ngIf="passwordCtrl?.errors?.['required']">Password is required.</span>
+        <span *ngIf="passwordCtrl?.errors?.['minlength']">
+          Password must be at least {{ passwordCtrl.errors?.['minlength'].requiredLength }} characters (currently {{ passwordCtrl.errors?.['minlength'].actualLength }}).
+        </span>
+        <span *ngIf="passwordCtrl?.errors?.['pattern']">
+          Password must contain at least one uppercase letter, one lowercase letter, and one digit.
+        </span>
+      </mat-error>
     </mat-form-field>
     <button
       mat-raised-button
@@ -34,8 +44,10 @@
       Login
     </button>
   </form>
-
-  <p *ngIf="loginResult === null" class="result-text">
+  <p *ngIf="loginResult() === null" class="result-text">
     Incorrect email or password
+  </p>
+  <p *ngIf="errorMessage()" class="result-text">
+    {{ errorMessage() }}
   </p>
 </div>
