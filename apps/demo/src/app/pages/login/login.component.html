@@ -1,8 +1,15 @@
-<div class="login-container">
-  <h2>Login to MockAPI</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form" novalidate>
-    <mat-form-field appearance="outline" class="full-width">
+<div class="login u-flex-center u-vh">
+  <h2 class="login__title">Login to MockAPI</h2>
+  <form
+    class="login__form"
+    novalidate
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+  >
+    <mat-form-field appearance="outline" class="login__field">
       <mat-label>Email</mat-label>
+      @let emailCtrl = loginForm.controls.email;
+      @let emailErr  = emailCtrl.errors;
       <input
         matInput
         formControlName="email"
@@ -10,13 +17,22 @@
         autocomplete="username"
         placeholder="Enter email"
       />
-      <mat-error *ngIf="emailCtrl?.touched && emailCtrl?.invalid">
-        <span *ngIf="emailCtrl?.errors?.['required']">Email is required.</span>
-        <span *ngIf="emailCtrl?.errors?.['email']">Please enter a valid email.</span>
-      </mat-error>
+      @if ( emailCtrl.touched && emailCtrl.invalid)
+      {
+        <mat-error>
+          @if (emailErr?.['required']) {
+            <span>Email is required.</span>
+          }
+          @if (emailErr?.['pattern']) {
+            <span>Please enter a valid email.</span>
+          }
+        </mat-error>
+      }
     </mat-form-field>
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field appearance="outline" class="login__field">
       <mat-label>Password</mat-label>
+      @let passwordCtrl = loginForm.controls.password;
+      @let pwdErr = passwordCtrl.errors;
       <input
         matInput
         formControlName="password"
@@ -24,30 +40,43 @@
         autocomplete="current-password"
         placeholder="Enter password"
       />
-      <mat-error *ngIf="passwordCtrl?.touched && passwordCtrl?.invalid">
-        <span *ngIf="passwordCtrl?.errors?.['required']">Password is required.</span>
-        <span *ngIf="passwordCtrl?.errors?.['minlength']">
-          Password must be at least {{ passwordCtrl.errors?.['minlength'].requiredLength }} characters (currently {{ passwordCtrl.errors?.['minlength'].actualLength }}).
-        </span>
-        <span *ngIf="passwordCtrl?.errors?.['pattern']">
-          Password must contain at least one uppercase letter, one lowercase letter, and one digit.
-        </span>
-      </mat-error>
+      @if (passwordCtrl.touched && passwordCtrl.invalid) {
+        <mat-error>
+          @if (pwdErr?.['required']) {
+            <span>Password is required.</span>
+          }
+          @let minErr = pwdErr?.['minlength'];
+          @if (minErr) {
+            <span>
+              Password must be at least {{ minErr.requiredLength }}
+              characters (currently {{ minErr.actualLength }}).
+            </span>
+          }
+          @if (pwdErr?.['pattern']) {
+            <span>
+              Password must contain at least one uppercase letter, one lowercase letter, and one digit.
+            </span>
+          }
+        </mat-error>
+      }
     </mat-form-field>
     <button
       mat-raised-button
       color="primary"
       type="submit"
+      class="login__button"
       [disabled]="loginForm.invalid"
-      class="full-width"
     >
       Login
     </button>
   </form>
-  <p *ngIf="loginResult() === null" class="result-text">
-    Incorrect email or password
-  </p>
-  <p *ngIf="errorMessage()" class="result-text">
-    {{ errorMessage() }}
-  </p>
+  @if (loginForm.hasError('invalidCreds')) {
+    <p class="login__result">
+      Incorrect email or password
+    </p>
+  } @else if (errorMessage()) {
+    <p class="login__result">
+      {{ errorMessage() }}
+    </p>
+  }
 </div>

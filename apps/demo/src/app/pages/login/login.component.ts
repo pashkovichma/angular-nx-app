@@ -1,30 +1,22 @@
-import {
-  Component,
-  inject,
-  ChangeDetectionStrategy,
-  signal
-} from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  NonNullableFormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule }     from '@angular/material/input';
-import { MatButtonModule }    from '@angular/material/button';
-
-import { finalize } from 'rxjs/operators';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
+import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { LoginCredentials } from 'auth';
+import { finalize, take } from 'rxjs/operators';
 
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user.model';
-import { LoginCredentials } from 'libs/auth/src/lib/models/login-credentials.model';
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
 export enum LocalStorageKey {
-  AuthToken = 'auth_token'
+  AuthToken = 'auth_token',
 }
 
 @Component({
@@ -32,53 +24,32 @@ export enum LocalStorageKey {
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  private fb = inject(NonNullableFormBuilder);
+  private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
 
-  readonly loginForm: FormGroup<{
-    email: FormControl<string>;
-    password: FormControl<string>;
-  }> = this.fb.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email
-      ]
-    ],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
-      ]
-    ]
-  });
-
-  private readonly _loginResult$ = signal<User | null | undefined>(undefined);
-  readonly loginResult = this._loginResult$.asReadonly();
+  readonly loginForm: FormGroup<ControlsOf<LoginCredentials>>;
 
   readonly loading = signal(false);
   readonly errorMessage = signal<string | null>(null);
+  readonly loginError = signal<unknown | null>(null);
 
-  get emailCtrl() {
-    return this.loginForm.controls.email;
+  constructor() {
+    this.loginForm = this.createLoginForm();
   }
 
-  get passwordCtrl() {
-    return this.loginForm.controls.password;
+  private createLoginForm(): FormGroup<{
+    email: FormControl<string>;
+    password: FormControl<string>;
+  }> {
+    return this.fb.group({
+      email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(PASSWORD_PATTERN)]],
+    });
   }
 
   login(): void {
@@ -88,7 +59,6 @@ export class LoginComponent {
       return;
     }
 
-    this._loginResult$.set(undefined);
     this.errorMessage.set(null);
     this.loading.set(true);
 
@@ -96,33 +66,34 @@ export class LoginComponent {
 
     const creds: LoginCredentials = {
       email: email.trim(),
-      password: password.trim()
+      password: password.trim(),
     };
 
     this.auth
       .login(creds)
       .pipe(
-        finalize(() => this.loading.set(false))
+        take(1),
+        finalize(() => this.loading.set(false)),
       )
       .subscribe({
         next: (users: User[]) => {
-          if (users.length === 1) {
-            this.handleSuccess(users[0]);
-          } else {
-            this._loginResult$.set(null);
+          if (!users.length) {
+            this.loginForm.setErrors({ invalidCreds: true });
+            return;
           }
+
+          this.handleSuccess(users[0]);
         },
         error: (err) => {
-          console.error('Error making request to MockAPI:', err);
-          this._loginResult$.set(null);
+          this.loginError.set(err);
+          this.loginForm.setErrors({ invalidCreds: true });
           this.errorMessage.set('Server error, please try again later.');
-        }
+        },
       });
   }
 
-  private handleSuccess(user: User): void {
-  const token = `mock-token-${user.id}`;
-  localStorage.setItem(LocalStorageKey.AuthToken, token);
-  this.router.navigate(['/hello']);
-}
+  private handleSuccess({ id }: User): void {
+    localStorage.setItem(LocalStorageKey.AuthToken, `mock-token-${id}`);
+    this.router.navigate(['/hello']);
+  }
 }

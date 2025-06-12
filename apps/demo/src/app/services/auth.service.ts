@@ -1,28 +1,23 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { LoginCredentials } from 'auth';
 import { Observable } from 'rxjs';
+import { toHttpParams } from 'utils';
 
 import { environment } from '../../environments/environment';
+import { ApiEndpoint } from '../core/api-endpoints';
 import { User } from './user.model';
-import { LoginCredentials } from 'libs/auth/src/lib/models/login-credentials.model';
-
-export enum ApiEndpoint {
-  Users = '/users'
-}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
 
   login(creds: LoginCredentials): Observable<User[]> {
-    const apiUrl = `${environment.apiUrl}${ApiEndpoint.Users}`;
-
-    const params = new HttpParams()
-      .set('email', creds.email)
-      .set('password', creds.password);
-
-    return this.http.get<User[]>(apiUrl, { params });
+    const url = `${environment.apiUrl}${ApiEndpoint.Users}`;
+    return this.http.get<User[]>(url, {
+      params: toHttpParams({ ...creds }),
+    });
   }
 }
