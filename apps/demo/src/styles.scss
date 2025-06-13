@@ -70,8 +70,19 @@
   -webkit-font-smoothing: antialiased;
 }
 
-html, body { height: 100%; }
+html,
 body {
+  font-family: 'Roboto', Arial, sans-serif;
   margin: 0;
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  padding: 0;
+}
+
+.u-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.u-vh {
+  height: 100vh;
 }

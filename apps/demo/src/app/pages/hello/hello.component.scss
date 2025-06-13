@@ -1,0 +1,13 @@
+.hello {
+  flex-direction: column;
+  background-color: #e8f0fe;
+
+  &__title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+  &__text {
+    font-size: 1.2rem;
+  }
+}

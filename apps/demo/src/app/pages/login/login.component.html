@@ -1,0 +1,81 @@
+@let emailCtrl = loginForm.controls.email;
+@let emailErr  = emailCtrl.errors;
+@let passwordCtrl = loginForm.controls.password;
+@let pwdErr = passwordCtrl.errors;
+@let minErr = pwdErr?.['minlength'];
+<div class="login u-flex-center u-vh">
+  <h2 class="login__title">Login to MockAPI</h2>
+  <form
+    class="login__form"
+    novalidate
+    [formGroup]="loginForm"
+    (ngSubmit)="login()"
+  >
+    <mat-form-field appearance="outline" class="login__field">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        autocomplete="username"
+        placeholder="Enter email"
+      />
+      @if ( emailCtrl.touched && emailCtrl.invalid) {
+        <mat-error>
+          @if (emailErr?.['required']) {
+            <span>Email is required.</span>
+          }
+          @if (emailErr?.['pattern']) {
+            <span>Please enter a valid email.</span>
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="login__field">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Enter password"
+      />
+      @if (passwordCtrl.touched && passwordCtrl.invalid) {
+        <mat-error>
+          @if (pwdErr?.['required']) {
+            <span>Password is required.</span>
+          }
+          @if (minErr) {
+            <span>
+              Password must be at least {{ minErr.requiredLength }}
+              characters (currently {{ minErr.actualLength }}).
+            </span>
+          }
+          @if (pwdErr?.['pattern']) {
+            <span>
+              Password must contain at least one uppercase letter, one lowercase letter, and one digit.
+            </span>
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="login__button"
+      [disabled]="loginForm.invalid"
+    >
+      Login
+    </button>
+  </form>
+  @if (loginForm.hasError('invalidCreds')) {
+    <p class="login__result">
+      Incorrect email or password
+    </p>
+  } @else if (errorMessage()) {
+    <p class="login__result">
+      {{ errorMessage() }}
+    </p>
+  }
+</div>
