@@ -6,18 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { LoginCredentials } from 'auth';
+import { AuthLocalStorageKey, LoginCredentials } from 'auth';
 import { finalize, take } from 'rxjs/operators';
+import { EMAIL_PATTERN, PASSWORD_PATTERN } from 'utils';
 
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user.model';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-
-export enum LocalStorageKey {
-  AuthToken = 'auth_token',
-}
 
 @Component({
   selector: 'app-login',
@@ -62,7 +56,7 @@ export class LoginComponent {
     this.errorMessage.set(null);
     this.loading.set(true);
 
-    const { email, password } = this.loginForm.getRawValue();
+    const { email, password } = this.loginForm.value;
 
     const creds: LoginCredentials = {
       email: email.trim(),
@@ -93,7 +87,7 @@ export class LoginComponent {
   }
 
   private handleSuccess({ id }: User): void {
-    localStorage.setItem(LocalStorageKey.AuthToken, `mock-token-${id}`);
+    localStorage.setItem(AuthLocalStorageKey.Token, `mock-token-${id}`);
     this.router.navigate(['/hello']);
   }
 }

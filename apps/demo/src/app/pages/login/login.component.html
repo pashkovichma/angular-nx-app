@@ -1,3 +1,8 @@
+@let emailCtrl = loginForm.controls.email;
+@let emailErr  = emailCtrl.errors;
+@let passwordCtrl = loginForm.controls.password;
+@let pwdErr = passwordCtrl.errors;
+@let minErr = pwdErr?.['minlength'];
 <div class="login u-flex-center u-vh">
   <h2 class="login__title">Login to MockAPI</h2>
   <form
@@ -8,8 +13,6 @@
   >
     <mat-form-field appearance="outline" class="login__field">
       <mat-label>Email</mat-label>
-      @let emailCtrl = loginForm.controls.email;
-      @let emailErr  = emailCtrl.errors;
       <input
         matInput
         formControlName="email"
@@ -17,8 +20,7 @@
         autocomplete="username"
         placeholder="Enter email"
       />
-      @if ( emailCtrl.touched && emailCtrl.invalid)
-      {
+      @if ( emailCtrl.touched && emailCtrl.invalid) {
         <mat-error>
           @if (emailErr?.['required']) {
             <span>Email is required.</span>
@@ -31,8 +33,6 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="login__field">
       <mat-label>Password</mat-label>
-      @let passwordCtrl = loginForm.controls.password;
-      @let pwdErr = passwordCtrl.errors;
       <input
         matInput
         formControlName="password"
@@ -45,7 +45,6 @@
           @if (pwdErr?.['required']) {
             <span>Password is required.</span>
           }
-          @let minErr = pwdErr?.['minlength'];
           @if (minErr) {
             <span>
               Password must be at least {{ minErr.requiredLength }}
