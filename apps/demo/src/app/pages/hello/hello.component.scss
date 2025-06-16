@@ -1,13 +1,26 @@
+@use 'colors/azure-blue' as color;
+
 .hello {
+  position: relative;
   flex-direction: column;
-  background-color: #e8f0fe;
+  background-color: color.$azure-blue-light;;
+  padding: 1rem;
+
+  &__lang-switcher {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
 
   &__title {
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: color.$azure-blue-dark;
 }
 
   &__text {
     font-size: 1.2rem;
+    color: color.$azure-blue-secondary;
   }
 }

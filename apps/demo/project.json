@@ -23,7 +23,13 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/demo/public"
+            "input": "apps/demo/public",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/demo/src/assets",
+            "output": "assets"
           }
         ],
         "styles": [
@@ -31,7 +37,10 @@
           "node_modules/@angular/material/prebuilt-themes/azure-blue.css",
           "apps/demo/src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/styles/src/lib"]
+        }
       },
       "configurations": {
         "production": {

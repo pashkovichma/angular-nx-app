@@ -1,10 +1,21 @@
+@use 'colors/azure-blue' as color;
+
 .login {
+  position: relative;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: color.$azure-blue-light;
   padding: 1rem;
+
+  &__lang-switcher {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
 
   &__title {
     margin-bottom: 1rem;
+    color: color.$azure-blue-primary;
   }
 
   &__form {
@@ -20,6 +31,8 @@
 
   &__button {
     width: 100%;
+    background-color: color.$azure-blue-primary;
+    color: white;
   }
 
   &__result {
