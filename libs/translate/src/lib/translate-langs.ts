@@ -1,9 +1,17 @@
-export const LANGUAGES = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'pl', name: 'Polski', flag: '🇵🇱' },
+export enum LanguageCode {
+  En = 'en',
+  Pl = 'pl',
+}
+
+export interface Language {
+  code: LanguageCode;
+  name: string;
+  flag: string;
+}
+
+export const LANGUAGES: readonly Language[] = [
+  { code: LanguageCode.En, name: 'English', flag: '🇬🇧' },
+  { code: LanguageCode.Pl, name: 'Polski', flag: '🇵🇱' },
 ] as const;
 
-export type Language = (typeof LANGUAGES)[number];
-export type LanguageCode = Language['code'];
-
-export const DEFAULT_LANG: LanguageCode = 'en';
+export const DEFAULT_LANG: LanguageCode = LanguageCode.En;

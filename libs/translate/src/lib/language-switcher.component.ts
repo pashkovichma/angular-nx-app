@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -11,6 +11,8 @@ import { DEFAULT_LANG, Language, LanguageCode, LANGUAGES } from './translate-lan
   templateUrl: './language-switcher.component.html',
   styleUrls: ['./language-switcher.component.scss'],
   imports: [CommonModule, TranslateModule, MatSelectModule],
+
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageSwitcherComponent implements OnInit {
   private readonly translate = inject(TranslateService);
