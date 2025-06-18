@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageSwitcherComponent } from '@translate';
 import { AuthLocalStorageKey, LoginCredentials } from 'auth';
 import { finalize, take } from 'rxjs/operators';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from 'utils';
@@ -18,13 +20,21 @@ import { User } from '../../services/user.model';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    TranslateModule,
+    LanguageSwitcherComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  private fb = inject(FormBuilder);
-  private auth = inject(AuthService);
-  private router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly loginForm: FormGroup<ControlsOf<LoginCredentials>>;
 

@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@translate": ["libs/translate/src/index.ts"],
       "auth": ["libs/auth/src/index.ts"],
       "styles": ["libs/styles/src/index.ts"],
       "utils": ["libs/shared/src/index.ts"]

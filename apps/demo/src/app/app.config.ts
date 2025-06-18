@@ -4,6 +4,7 @@ import { importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { provideTranslate } from '@translate';
 import { AuthInterceptor } from 'auth';
 
 import { routes } from './app.routes';
@@ -15,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     importProvidersFrom(BrowserAnimationsModule, FormsModule),
     provideRouter(routes),
+    provideTranslate(),
   ],
 };

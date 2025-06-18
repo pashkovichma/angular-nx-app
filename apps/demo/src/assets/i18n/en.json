@@ -1,0 +1,19 @@
+{"LOGIN": {
+    "TITLE": "Login to MockAPI",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter email",
+    "EMAIL_REQUIRED": "Email is required.",
+    "EMAIL_INVALID": "Please enter a valid email.",
+    "PASSWORD_LABEL": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter password",
+    "PASSWORD_REQUIRED": "Password is required.",
+    "PASSWORD_MINLENGTH": "Password must be at least {{ required }} characters (currently {{ actual }}).",
+    "PASSWORD_PATTERN": "Password must contain at least one uppercase letter, one lowercase letter, and one digit.",
+    "BUTTON": "Login",
+    "INVALID_CREDENTIALS": "Incorrect email or password"
+  },
+  "HELLO_WORLD": {
+    "TITLE": "Hello World",
+    "DESCRIPTION": "You have successfully logged in and reached this page!"
+  }
+}

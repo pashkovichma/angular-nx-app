@@ -1,0 +1,20 @@
+{
+ "LOGIN": {
+    "TITLE": "Zaloguj się do MockAPI",
+    "EMAIL_LABEL": "Email",
+    "EMAIL_PLACEHOLDER": "Wprowadź email",
+    "EMAIL_REQUIRED": "Email jest wymagany.",
+    "EMAIL_INVALID": "Proszę podać poprawny adres email.",
+    "PASSWORD_LABEL": "Hasło",
+    "PASSWORD_PLACEHOLDER": "Wprowadź hasło",
+    "PASSWORD_REQUIRED": "Hasło jest wymagane.",
+    "PASSWORD_MINLENGTH": "Hasło musi mieć co najmniej {{ required }} znaków (obecnie {{ actual }}).",
+    "PASSWORD_PATTERN": "Hasło musi zawierać co najmniej jedną dużą literę, jedną małą literę i jedną cyfrę.",
+    "BUTTON": "Zaloguj się",
+    "INVALID_CREDENTIALS": "Nieprawidłowy email lub hasło"
+  },
+  "HELLO_WORLD": {
+    "TITLE": "Witaj świecie",
+    "DESCRIPTION": "Zalogowano pomyślnie i dotarłeś na tę stronę!"
+  }
+}
