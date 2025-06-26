@@ -28,6 +28,7 @@
     "TITLE": "Login to MockAPI"
   },
   "PATIENTS": {
+    "ADD": "Add Patient",
     "BIRTHDATE": "Birthdate",
     "DELETE_CONFIRM": "Are you sure you want to delete {{name}}?",
     "DELETE_SUCCESS": "Patient was successfully deleted.",

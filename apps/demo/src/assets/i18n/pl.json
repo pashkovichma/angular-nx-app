@@ -28,6 +28,7 @@
     "TITLE": "Witaj"
   },
   "PATIENTS": {
+    "ADD": "Dodaj pacjenta",
     "BIRTHDATE": "Data urodzenia",
     "DELETE_CONFIRM": "Czy na pewno chcesz usunąć {{name}}?",
     "DELETE_SUCCESS": "Pacjent został pomyślnie usunięty.",

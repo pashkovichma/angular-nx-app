@@ -13,7 +13,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { PatientService, type Patient } from '../../services/patient.service';
-import { updatePatientInList } from '../../services/patient.signal';
+import { patients, setPatients, updatePatientInList } from '../../services/patient.signal';
 import { getMaxBirthdate, getMinBirthdate, MAX_NOTES_LENGTH } from '../../shared/constants/constants';
 import { createBirthdateFilter, createEndDateFilter, createStartDateFilter } from '../../shared/utils/date-filters';
 import { birthdateValidator, dateRangeValidator } from '../../shared/validators/date-range.validator';
@@ -22,12 +22,15 @@ import { nameValidator } from '../../shared/validators/name.validator';
 import { FormFieldErrorComponent } from '../form-field-error/form-field-error.component';
 
 @Component({
-  selector: 'app-patient-edit',
+  selector: 'app-patient-form',
   standalone: true,
+  templateUrl: './patient-form.component.html',
+  styleUrls: ['./patient-form.component.scss'],
   imports: [
     CommonModule,
-    FormFieldErrorComponent,
     RouterModule,
+    ReactiveFormsModule,
+    TranslateModule,
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,
@@ -37,21 +40,21 @@ import { FormFieldErrorComponent } from '../form-field-error/form-field-error.co
     MatOption,
     MatProgressSpinnerModule,
     MatSelect,
-    ReactiveFormsModule,
-    TranslateModule,
+    FormFieldErrorComponent,
   ],
-  templateUrl: './patient-edit.component.html',
-  styleUrls: ['./patient-edit.component.scss'],
 })
-export class PatientEditComponent {
+export class PatientFormComponent {
+  private readonly fb = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly patientService = inject(PatientService);
-  private readonly fb = inject(FormBuilder);
 
-  private readonly patientId = this.route.snapshot.paramMap.get('patientId') ?? '';
   readonly userId = this.route.parent?.snapshot.paramMap.get('userId') ?? '';
+  readonly patientId = this.route.snapshot.paramMap.get('patientId');
+  readonly isEditMode = !!this.patientId;
+
   readonly patient = signal<Patient | null>(null);
+  readonly isLoaded = computed(() => !this.isEditMode || this.patient() !== null);
 
   readonly form: FormGroup = this.fb.group(
     {
@@ -69,23 +72,22 @@ export class PatientEditComponent {
     { validators: dateRangeValidator() },
   );
 
-  readonly isLoaded = computed(() => this.patient() !== null);
-
   readonly maxBirthdate = getMaxBirthdate();
   readonly minBirthdate = getMinBirthdate();
-
   readonly birthdateFilter = createBirthdateFilter(this.minBirthdate, this.maxBirthdate);
   readonly startDateFilter = createStartDateFilter(() => this.form.get('endDate')?.value);
   readonly endDateFilter = createEndDateFilter(() => this.form.get('startDate')?.value);
 
   constructor() {
-    this.patientService.getPatient(this.patientId).subscribe({
-      next: (p) => {
-        this.patient.set(p);
-        this.patchForm(p);
-      },
-      error: () => this.router.navigate(['/not-found']),
-    });
+    if (this.isEditMode && this.patientId) {
+      this.patientService.getPatient(this.patientId).subscribe({
+        next: (p) => {
+          this.patient.set(p);
+          this.patchForm(p);
+        },
+        error: () => this.router.navigate(['/not-found']),
+      });
+    }
   }
 
   save(): void {
@@ -94,13 +96,25 @@ export class PatientEditComponent {
       return;
     }
 
-    this.patientService.updatePatient(this.patientId, this.form.value).subscribe({
-      next: (updatedPatient) => {
-        updatePatientInList(updatedPatient);
-        this.router.navigate(['/hello', this.userId]);
-      },
-      error: (err) => console.error('Error updating patient:', err),
-    });
+    const formValue = this.form.value;
+
+    if (this.isEditMode && this.patientId) {
+      this.patientService.updatePatient(this.patientId, formValue).subscribe({
+        next: (updated) => {
+          updatePatientInList(updated);
+          this.router.navigate(['/hello', this.userId]);
+        },
+        error: (err) => console.error('Update error:', err),
+      });
+    } else {
+      this.patientService.createPatient(formValue).subscribe({
+        next: (created) => {
+          setPatients([...patients(), created]);
+          this.router.navigate(['/hello', this.userId]);
+        },
+        error: (err) => console.error('Create error:', err),
+      });
+    }
   }
 
   cancel(): void {
@@ -114,14 +128,5 @@ export class PatientEditComponent {
       startDate: p.startDate ? new Date(p.startDate) : null,
       endDate: p.endDate ? new Date(p.endDate) : null,
     });
-  }
-
-  private toDateInputFormat(dateString?: string): string | null {
-    if (!dateString) {
-      return null;
-    }
-
-    const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
   }
 }

@@ -6,6 +6,15 @@
     <lib-translate-language-switcher />
   </div>
 </div>
+<div class="hello__actions">
+  <button
+    mat-raised-button
+    color="primary"
+    [routerLink]="['/hello', userId, 'patient', 'add']"
+  >
+    {{ 'PATIENTS.ADD' | translate }}
+  </button>
+</div>
 <div class="hello__patient-list">
   @for (patient of patientList(); track patient.id) {
     <app-patient-card [patient]="patient" />

@@ -41,4 +41,24 @@
       padding: space.$spacing-sm;
     }
   }
+
+  &__actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: space.$spacing-sm space.$spacing-md;
+
+    @media (max-width: 600px) {
+      justify-content: center;
+      padding: space.$spacing-sm;
+    }
+
+    button {
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      border-radius: 0.5rem;
+    }
+  }
 }

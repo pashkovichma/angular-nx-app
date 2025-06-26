@@ -1,6 +1,6 @@
 import type { Routes } from '@angular/router';
 
-import { PatientEditComponent } from '../../components/patient-edit/patient-edit.component';
+import { PatientFormComponent } from '../../components/patient-form/patient-form.component';
 import { PatientViewComponent } from '../../components/patient-view/patient-view.component';
 import { HelloComponent } from './hello.component';
 
@@ -10,12 +10,16 @@ export const helloRoutes: Routes = [
     component: HelloComponent,
     children: [
       {
+        path: 'patient/add',
+        component: PatientFormComponent,
+      },
+      {
         path: 'patient/:patientId/view',
         component: PatientViewComponent,
       },
       {
         path: 'patient/:patientId/edit',
-        component: PatientEditComponent,
+        component: PatientFormComponent,
       },
     ],
   },

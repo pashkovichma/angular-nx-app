@@ -1,0 +1,32 @@
+.language-switcher__field {
+  width: 140px;
+  font-size: 0.85rem;
+  margin: 0;
+  padding: 0;
+}
+.language-switcher__field .mat-form-field-flex {
+  padding: 0 8px;
+}
+.language-switcher__field .mat-select {
+  min-height: 40px;
+}
+.language-switcher__field .mat-option {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+@media (max-width: 480px) {
+  .language-switcher__field {
+    width: 100%;
+  }
+  .language-switcher__field .mat-form-field-flex {
+    padding: 0 12px;
+  }
+  .language-switcher__field .mat-select {
+    width: 100%;
+  }
+  .language-switcher__field .mat-option {
+    font-size: 1rem;
+  }
+}/*# sourceMappingURL=language-switcher.component.css.map */

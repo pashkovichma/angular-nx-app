@@ -30,8 +30,7 @@ export class HelloComponent {
   private readonly authService = inject(AuthService);
   private readonly patientService = inject(PatientService);
 
-  private readonly userId: string;
-
+  readonly userId: string;
   readonly user = signal<User | null>(null);
   readonly patientList = patients;
 
