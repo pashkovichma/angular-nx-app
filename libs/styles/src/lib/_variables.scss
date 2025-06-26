@@ -1,6 +1,7 @@
 @use 'colors/azure-blue' as colors;
 @use 'sizes/spacing' as sizes;
 @use 'typography/fonts' as type;
+@use 'sizes/shadows' as shadows;
 
 $primary-color: colors.$azure-blue-primary;
 $secondary-color: colors.$azure-blue-secondary;
@@ -31,4 +32,5 @@ $border-radius: sizes.$border-radius-md;
   --line-height-base: #{$line-height-base};
   --spacing-base: #{$spacing-base};
   --border-radius: #{$border-radius};
+  --shadow-md: #{shadows.$shadow-md};
 }

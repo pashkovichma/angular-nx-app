@@ -1,0 +1,122 @@
+@use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
+@use 'sizes/shadows' as shadow;
+@use 'typography/fonts' as type;
+
+.patient-view {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  font-family: type.$font-family-base;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  &__modal {
+    position: relative;
+    background-color: color.$azure-blue-light;
+    padding: space.$spacing-lg;
+    border-radius: space.$border-radius-lg;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: shadow.$shadow-lg;
+    animation: fadeInZoom 0.3s ease-out;
+    transform-origin: center center;
+  }
+
+  @keyframes fadeInZoom {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: space.$spacing-md;
+  }
+
+  &__title {
+    font-size: type.$font-size-xl;
+    margin: 0;
+    color: color.$azure-blue-dark;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: space.$spacing-sm;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    mat-icon {
+      font-size: type.$font-size-lg;
+      color: color.$azure-blue-dark;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 380px) {
+      width: 100%;
+      min-width: 0;
+      height: auto;
+    }
+  }
+
+  &__close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    mat-icon {
+      font-size: type.$font-size-xl;
+      color: color.$azure-blue-dark;
+    }
+  }
+
+  &__info p {
+    margin: space.$spacing-xs 0;
+    font-size: type.$font-size-sm;
+    color: color.$azure-blue-dark;
+  }
+}

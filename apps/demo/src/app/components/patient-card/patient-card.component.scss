@@ -1,0 +1,71 @@
+@use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
+@use 'sizes/shadows' as shadow;
+@use 'typography/fonts' as type;
+
+.patient-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: color.$azure-blue-light;
+  padding: space.$spacing-md;
+  border-radius: space.$border-radius-lg;
+  box-shadow: shadow.$shadow-md;
+  transition: transform 0.2s ease-in-out;
+  width: 280px;
+  height: 180px;
+  font-family: type.$font-family-base;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: type.$font-size-lg;
+    margin-bottom: space.$spacing-xs;
+    color: color.$azure-blue-dark;
+    font-family: type.$font-family-base;
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &__birthdate {
+    margin: space.$spacing-xs 0;
+    font-size: type.$font-size-sm;
+    color: color.$azure-blue-dark;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: space.$spacing-sm;
+    padding-top: space.$spacing-sm;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+
+    mat-icon {
+      font-size: type.$font-size-lg;
+    }
+  }
+}

@@ -1,26 +1,44 @@
 @use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
 
 .hello {
-  position: relative;
-  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   background-color: color.$azure-blue-light;;
-  padding: 1rem;
-
-  &__lang-switcher {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 10;
-  }
+  padding: space.$spacing-md;
+  gap: space.$spacing-sm;
 
   &__title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: color.$azure-blue-dark;
-}
+    font-size: 2rem;
+    margin: 0;
+    color: color.$azure-blue-dark;
+    flex: 1 1 auto;
+    text-align: left;
+
+    @media (max-width: 600px) {
+      font-size: 1.5rem;
+      text-align: center;
+      width: 100%;
+    }
+  }
 
   &__text {
     font-size: 1.2rem;
     color: color.$azure-blue-secondary;
+  }
+
+  &__patient-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: space.$spacing-md;
+    padding: space.$spacing-md space.$spacing-sm;
+    box-sizing: border-box;
+
+    @media (max-width: 600px) {
+      padding: space.$spacing-sm;
+    }
   }
 }

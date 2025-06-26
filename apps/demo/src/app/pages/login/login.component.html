@@ -21,7 +21,7 @@
         formControlName="email"
         type="email"
         autocomplete="username"
-        placeholder="'LOGIN.EMAIL_PLACEHOLDER' | translate"
+        [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
       />
       @if ( emailCtrl.touched && emailCtrl.invalid) {
         <mat-error>
@@ -41,7 +41,7 @@
         formControlName="password"
         type="password"
         autocomplete="current-password"
-        placeholder="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
+        [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
       />
       @if (passwordCtrl.touched && passwordCtrl.invalid) {
         <mat-error>

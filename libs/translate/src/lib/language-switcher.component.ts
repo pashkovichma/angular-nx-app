@@ -46,6 +46,7 @@ export class LanguageSwitcherComponent implements OnInit {
     if (!lang) {
       throw new Error(`Language not found: ${code}`);
     }
+
     return lang;
   }
 

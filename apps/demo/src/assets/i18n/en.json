@@ -1,19 +1,52 @@
-{"LOGIN": {
-    "TITLE": "Login to MockAPI",
+{
+  "COMMON": {
+    "CANCEL": "Cancel",
+    "DELETE": "Delete",
+    "DELETE_CONFIRM": "Are you sure you want to delete {{name}}?",
+    "SAVE": "Save"
+  },
+  "GENDER": {
+    "FEMALE": "female",
+    "MALE": "male"
+  },
+  "HELLO": {
+    "TITLE": "Hello"
+  },
+  "LOGIN": {
+    "BUTTON": "Login",
+    "EMAIL_INVALID": "Please enter a valid email.",
     "EMAIL_LABEL": "Email",
     "EMAIL_PLACEHOLDER": "Enter email",
     "EMAIL_REQUIRED": "Email is required.",
-    "EMAIL_INVALID": "Please enter a valid email.",
+    "ERROR_SERVER": "Server error, please try again later.",
+    "INVALID_CREDENTIALS": "Incorrect email or password",
     "PASSWORD_LABEL": "Password",
     "PASSWORD_PLACEHOLDER": "Enter password",
     "PASSWORD_REQUIRED": "Password is required.",
     "PASSWORD_MINLENGTH": "Password must be at least {{ required }} characters (currently {{ actual }}).",
     "PASSWORD_PATTERN": "Password must contain at least one uppercase letter, one lowercase letter, and one digit.",
-    "BUTTON": "Login",
-    "INVALID_CREDENTIALS": "Incorrect email or password"
+    "TITLE": "Login to MockAPI"
   },
-  "HELLO_WORLD": {
-    "TITLE": "Hello World",
-    "DESCRIPTION": "You have successfully logged in and reached this page!"
+  "PATIENTS": {
+    "BIRTHDATE": "Birthdate",
+    "DELETE_CONFIRM": "Are you sure you want to delete {{name}}?",
+    "DELETE_SUCCESS": "Patient was successfully deleted.",
+    "EDIT_TITLE": "Edit Patient",
+    "EMAIL": "Email",
+    "END_DATE": "End Date",
+    "FIRSTNAME": "First name",
+    "GENDER": "Gender",
+    "LASTNAME": "Last name",
+    "NEWSLETTER": "Newsletter",
+    "NOTES": "Notes",
+    "START_DATE": "Start Date",
+    "USERNAME": "Username"
+  },
+  "VALIDATION": {
+    "EMAIL": "Please enter a valid email address (letters, numbers, and . , / * + _ % - are allowed).",
+    "MAXLENGTH": "Maximum length is {{requiredLength}} characters (currently {{actualLength}}).",
+    "MINLENGTH": "Minimum length is {{required}} characters (currently {{actual}}).",
+    "NAME": "Name must contain only letters, spaces, apostrophes, or hyphens.",
+    "REQUIRED": "This field is required."
   }
 }

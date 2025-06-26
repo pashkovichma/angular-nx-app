@@ -1,0 +1,31 @@
+@let touched = control?.touched;
+@let dirty = control?.dirty;
+@let errors = control?.errors;
+
+@if ((touched || dirty) && errors) {
+  @if (errors['required']) {
+    <mat-error>
+      {{ 'VALIDATION.REQUIRED' | translate }}
+    </mat-error>
+  }
+  @if (errors['email'] || errors['relaxedEmail']) {
+    <mat-error>
+      {{ 'VALIDATION.EMAIL' | translate }}
+    </mat-error>
+  }
+  @if (errors['minlength']) {
+    <mat-error>
+      {{ 'VALIDATION.MINLENGTH' | translate:{ required: errors['minlength'].requiredLength, actual: errors['minlength'].actualLength } }}
+    </mat-error>
+  }
+  @if (errors['maxlength']) {
+    <mat-error>
+      {{ 'VALIDATION.MAXLENGTH' | translate:{ requiredLength: errors['maxlength'].requiredLength, actualLength: errors['maxlength'].actualLength } }}
+    </mat-error>
+  }
+  @if (errors['invalidName']) {
+    <mat-error>
+      {{ 'VALIDATION.NAME' | translate }}
+    </mat-error>
+  }
+}
