@@ -1,10 +1,5 @@
 export function createBirthdateFilter(min: Date, max: Date): (date: Date | null) => boolean {
-  return (date: Date | null) => {
-    if (!date) {
-      return false;
-    }
-    return date >= min && date <= max;
-  };
+  return (date: Date | null) => !!date && date >= min && date <= max;
 }
 
 export function createStartDateFilter(getEndDate: () => Date | null): (date: Date | null) => boolean {

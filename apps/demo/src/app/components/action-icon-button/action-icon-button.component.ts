@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,5 +10,5 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./action-icon-button.component.scss'],
 })
 export class ActionIconButtonComponent {
-  @Input({ required: true }) icon!: string;
+  readonly icon = input<string>();
 }

@@ -17,7 +17,7 @@
           {{ patient()?.firstName }} {{ patient()?.lastName }}
         </h2>
         <div class="patient-view__actions">
-          <a [routerLink]="['/hello', userId, 'patient', p.id, 'edit']">
+          <a [routerLink]="[AppRoutes.Hello, userId, 'patient', p.id, 'edit']">
             <app-action-icon-button icon="edit" />
           </a>
           <app-action-icon-button icon="delete" (click)="handleDelete()" />

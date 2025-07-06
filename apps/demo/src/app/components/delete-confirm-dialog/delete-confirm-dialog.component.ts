@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [CommonModule, MatButtonModule, TranslateModule],
   templateUrl: './delete-confirm-dialog.component.html',
   styleUrls: ['./delete-confirm-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteConfirmDialogComponent {
   readonly dialogRef = inject(MatDialogRef<DeleteConfirmDialogComponent>);

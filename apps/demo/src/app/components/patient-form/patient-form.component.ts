@@ -12,8 +12,9 @@ import { MatOption, MatSelect } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { AppRoutes } from '../../app.routes';
+import { PatientStateService } from '../../services/patient-state.service';
 import { PatientService, type Patient } from '../../services/patient.service';
-import { patients, setPatients, updatePatientInList } from '../../services/patient.signal';
 import { getMaxBirthdate, getMinBirthdate, MAX_NOTES_LENGTH } from '../../shared/constants/constants';
 import { createBirthdateFilter, createEndDateFilter, createStartDateFilter } from '../../shared/utils/date-filters';
 import { birthdateValidator, dateRangeValidator } from '../../shared/validators/date-range.validator';
@@ -48,6 +49,7 @@ export class PatientFormComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly patientService = inject(PatientService);
+  private readonly patientStateService = inject(PatientStateService);
 
   readonly userId = this.route.parent?.snapshot.paramMap.get('userId') ?? '';
   readonly patientId = this.route.snapshot.paramMap.get('patientId');
@@ -101,16 +103,16 @@ export class PatientFormComponent {
     if (this.isEditMode && this.patientId) {
       this.patientService.updatePatient(this.patientId, formValue).subscribe({
         next: (updated) => {
-          updatePatientInList(updated);
-          this.router.navigate(['/hello', this.userId]);
+          this.patientStateService.updatePatient(updated);
+          this.router.navigate([AppRoutes.Hello, this.userId]);
         },
         error: (err) => console.error('Update error:', err),
       });
     } else {
       this.patientService.createPatient(formValue).subscribe({
         next: (created) => {
-          setPatients([...patients(), created]);
-          this.router.navigate(['/hello', this.userId]);
+          this.patientStateService.addPatient(created);
+          this.router.navigate([AppRoutes.Hello, this.userId]);
         },
         error: (err) => console.error('Create error:', err),
       });
@@ -118,7 +120,7 @@ export class PatientFormComponent {
   }
 
   cancel(): void {
-    this.router.navigate(['/hello', this.userId]);
+    this.router.navigate([AppRoutes.Hello, this.userId]);
   }
 
   private patchForm(p: Patient): void {

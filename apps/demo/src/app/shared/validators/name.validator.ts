@@ -10,19 +10,6 @@ export function nameValidator(): ValidatorFn {
       return null;
     }
 
-    const errors: ValidationErrors = {};
-
-    if (value.length < 2) {
-      errors['minlength'] = {
-        requiredLength: 2,
-        actualLength: value.length,
-      };
-    }
-
-    if (!NAME_PATTERN.test(value)) {
-      errors['invalidName'] = true;
-    }
-
-    return Object.keys(errors).length > 0 ? errors : null;
+    return NAME_PATTERN.test(value) ? null : { invalidName: true };
   };
 }

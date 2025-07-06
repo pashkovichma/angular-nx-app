@@ -2,6 +2,7 @@ import type { Routes } from '@angular/router';
 
 import { PatientFormComponent } from '../../components/patient-form/patient-form.component';
 import { PatientViewComponent } from '../../components/patient-view/patient-view.component';
+import { PatientRoutes } from '../../shared/constants/routes.constants';
 import { HelloComponent } from './hello.component';
 
 export const helloRoutes: Routes = [
@@ -10,15 +11,15 @@ export const helloRoutes: Routes = [
     component: HelloComponent,
     children: [
       {
-        path: 'patient/add',
+        path: `${PatientRoutes.Base}/${PatientRoutes.Add}`,
         component: PatientFormComponent,
       },
       {
-        path: 'patient/:patientId/view',
+        path: `${PatientRoutes.Base}/${PatientRoutes.PatientIdParam}/${PatientRoutes.View}`,
         component: PatientViewComponent,
       },
       {
-        path: 'patient/:patientId/edit',
+        path: `${PatientRoutes.Base}/${PatientRoutes.PatientIdParam}/${PatientRoutes.Edit}`,
         component: PatientFormComponent,
       },
     ],

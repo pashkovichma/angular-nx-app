@@ -10,12 +10,14 @@
   <button
     mat-raised-button
     color="primary"
-    [routerLink]="['/hello', userId, 'patient', 'add']"
+    [routerLink]="['/', AppRoutes.Hello, userId, PatientRoutes.Base, PatientRoutes.Add]"
   >
     {{ 'PATIENTS.ADD' | translate }}
   </button>
 </div>
-<div class="hello__patient-list">
+<div
+  class="hello__patient-list scroll-container"
+  (scroll)="onScroll($event)">
   @for (patient of patientList(); track patient.id) {
     <app-patient-card [patient]="patient" />
   }

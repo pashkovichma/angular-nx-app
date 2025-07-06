@@ -1,4 +1,4 @@
-@if (patient; as p) {
+@if (patient(); as p) {
   <mat-card class="patient-card">
     <mat-card-title class="patient-card__title">
       {{ p.firstName }} {{ p.lastName }}
@@ -9,10 +9,10 @@
       </p>
     </mat-card-content>
     <mat-card-actions class="patient-card__actions">
-      <a [routerLink]="['patient', p.id, 'view']">
+      <a [routerLink]="[PatientRoutes.Base, p.id, PatientRoutes.View]">
         <app-action-icon-button icon="visibility" />
       </a>
-      <a [routerLink]="['patient', p.id, 'edit']">
+      <a [routerLink]="[PatientRoutes.Base, p.id, PatientRoutes.Edit]">
         <app-action-icon-button icon="edit" />
       </a>
       <app-action-icon-button icon="delete" (click)="handleDelete()" />

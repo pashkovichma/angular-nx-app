@@ -55,7 +55,7 @@ export default [
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       eqeqeq: ['error', 'always'],
-      curly: 'error',
+      curly: ["error", "multi-line"],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'import/order': [
         'error',

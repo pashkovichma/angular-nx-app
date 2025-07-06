@@ -1,6 +1,6 @@
-@let touched = control?.touched;
-@let dirty = control?.dirty;
-@let errors = control?.errors;
+@let touched = control()?.touched;
+@let dirty = control()?.dirty;
+@let errors = control()?.errors;
 
 @if ((touched || dirty) && errors) {
   @if (errors['required']) {

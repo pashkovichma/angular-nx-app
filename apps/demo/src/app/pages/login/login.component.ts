@@ -11,6 +11,7 @@ import { LanguageSwitcherComponent } from '@translate';
 import { AuthLocalStorageKey, LoginCredentials } from 'auth';
 import { finalize, take } from 'rxjs/operators';
 
+import { AppRoutes } from '../../app.routes';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user.model';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../shared/validators/patterns';
@@ -95,7 +96,7 @@ export class LoginComponent {
 
   private handleSuccess({ id }: User): void {
     localStorage.setItem(AuthLocalStorageKey.Token, `mock-token-${id}`);
-    this.router.navigate([`/hello/${id}`]);
+    this.router.navigate(['/', AppRoutes.Hello, `${id}`]);
   }
 
   private markInvalidCreds(): void {

@@ -36,6 +36,8 @@
     gap: space.$spacing-md;
     padding: space.$spacing-md space.$spacing-sm;
     box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 80vh;
 
     @media (max-width: 600px) {
       padding: space.$spacing-sm;

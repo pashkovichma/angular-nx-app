@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
@@ -9,7 +9,8 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, TranslateModule],
   templateUrl: './form-field-error.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldErrorComponent {
-  @Input({ required: true }) control!: AbstractControl | null;
+  readonly control = input<AbstractControl | null>();
 }
