@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -43,6 +43,7 @@ import { FormFieldErrorComponent } from '../form-field-error/form-field-error.co
     MatSelect,
     FormFieldErrorComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PatientFormComponent {
   private readonly fb = inject(FormBuilder);
@@ -55,8 +56,8 @@ export class PatientFormComponent {
   readonly patientId = this.route.snapshot.paramMap.get('patientId');
   readonly isEditMode = !!this.patientId;
 
-  readonly patient = signal<Patient | null>(null);
-  readonly isLoaded = computed(() => !this.isEditMode || this.patient() !== null);
+  readonly patient: WritableSignal<Patient | null> = signal<Patient | null>(null);
+  readonly isLoaded = computed(() => !this.isEditMode || Boolean(this.patient()));
 
   readonly form: FormGroup = this.fb.group(
     {
@@ -87,12 +88,11 @@ export class PatientFormComponent {
           this.patient.set(p);
           this.patchForm(p);
         },
-        error: () => this.router.navigate(['/not-found']),
       });
     }
   }
 
-  save(): void {
+  submitPatientForm(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -108,27 +108,27 @@ export class PatientFormComponent {
         },
         error: (err) => console.error('Update error:', err),
       });
-    } else {
-      this.patientService.createPatient(formValue).subscribe({
-        next: (created) => {
-          this.patientStateService.addPatient(created);
-          this.router.navigate([AppRoutes.Hello, this.userId]);
-        },
-        error: (err) => console.error('Create error:', err),
-      });
+      return;
     }
+    this.patientService.createPatient(formValue).subscribe({
+      next: (created) => {
+        this.patientStateService.addPatient(created);
+        this.router.navigate([AppRoutes.Hello, this.userId]);
+      },
+      error: (err) => console.error('Create error:', err),
+    });
   }
 
   cancel(): void {
     this.router.navigate([AppRoutes.Hello, this.userId]);
   }
 
-  private patchForm(p: Patient): void {
+  private patchForm(patient: Patient): void {
     this.form.patchValue({
-      ...p,
-      birthdate: p.birthdate ? new Date(p.birthdate) : null,
-      startDate: p.startDate ? new Date(p.startDate) : null,
-      endDate: p.endDate ? new Date(p.endDate) : null,
+      ...patient,
+      birthdate: patient.birthdate ? new Date(patient.birthdate) : null,
+      startDate: patient.startDate ? new Date(patient.startDate) : null,
+      endDate: patient.endDate ? new Date(patient.endDate) : null,
     });
   }
 }

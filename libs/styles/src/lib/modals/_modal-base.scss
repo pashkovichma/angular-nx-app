@@ -1,0 +1,20 @@
+@use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
+@use 'sizes/shadows' as shadow;
+@use 'typography/fonts' as type;
+@use 'sizes/modals' as modal;
+@use 'animations/fade';
+
+.modal-base {
+  position: relative;
+  background-color: color.$azure-blue-light;
+  padding: space.$spacing-lg;
+  border-radius: space.$border-radius-lg;
+  max-width: modal.$modal-max-width-md;
+  width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  box-shadow: shadow.$shadow-lg;
+  animation: fadeInZoom 0.3s ease-out;
+  transform-origin: center center;
+}

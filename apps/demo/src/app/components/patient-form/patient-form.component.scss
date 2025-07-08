@@ -2,48 +2,18 @@
 @use 'sizes/spacing' as space;
 @use 'sizes/shadows' as shadow;
 @use 'typography/fonts' as type;
+@use 'sizes/buttons' as button;
+@use 'sizes/modals' as modal;
+@use 'animations/fade';
+@use 'modals/modal-base';
 
 .patient-edit {
   position: fixed;
   inset: 0;
-  z-index: 1000;
   font-family: type.$font-family-base;
 
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    border: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-
   &__modal {
-    position: relative;
-    background-color: color.$azure-blue-light;
-    padding: space.$spacing-lg;
-    border-radius: space.$border-radius-lg;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90%;
-    overflow-y: auto;
-    box-shadow: shadow.$shadow-lg;
-    animation: fadeInZoom 0.3s ease-out;
-    transform-origin: center center;
-  }
-
-  @keyframes fadeInZoom {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+    @extend .modal-base;
   }
 
   &__title {
@@ -68,7 +38,11 @@
     gap: space.$spacing-md;
 
     button {
-      min-width: 120px;
+      min-width: button.$button-min-width;
     }
+  }
+
+  &__loader {
+    padding: space.$spacing-lg;
   }
 }

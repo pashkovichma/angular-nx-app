@@ -6,6 +6,7 @@ export enum AppRoutes {
   Root = '',
   Hello = 'hello',
   UserIdParam = ':userId',
+  NotFound = 'not-found',
   Wildcard = '**',
 }
 

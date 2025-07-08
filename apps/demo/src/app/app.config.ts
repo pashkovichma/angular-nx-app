@@ -8,12 +8,14 @@ import { provideTranslate } from '@translate';
 import { AuthInterceptor } from 'auth';
 
 import { routes } from './app.routes';
+import { NotFoundInterceptor } from './interceptors/not-found.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: NotFoundInterceptor, multi: true },
     importProvidersFrom(BrowserAnimationsModule, FormsModule),
     provideRouter(routes),
     provideTranslate(),

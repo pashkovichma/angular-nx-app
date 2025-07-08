@@ -1,11 +1,11 @@
 <div class="patient-view u-flex-center">
   <button
-    class="patient-view__overlay"
+    class="overlay"
     aria-label="Close modal overlay"
     (click)="closeView()"
   ></button>
 
-  @if (patient(); as p) {
+  @if (patientData(); as patient) {
     <section
       class="patient-view__modal"
       role="dialog"
@@ -14,10 +14,10 @@
     >
       <header class="patient-view__header">
         <h2 class="patient-view__title">
-          {{ patient()?.firstName }} {{ patient()?.lastName }}
+          {{ patient.firstName }} {{ patient.lastName }}
         </h2>
         <div class="patient-view__actions">
-          <a [routerLink]="[AppRoutes.Hello, userId, 'patient', p.id, 'edit']">
+          <a [routerLink]="['/', AppRoutes.Hello, userId, PatientRoutes.Base, patient.id, PatientRoutes.Edit]">
             <app-action-icon-button icon="edit" />
           </a>
           <app-action-icon-button icon="delete" (click)="handleDelete()" />
@@ -31,14 +31,14 @@
         </div>
       </header>
       <section class="patient-view__info">
-        <p><strong>{{ 'PATIENTS.EMAIL' | translate }}:</strong> {{ patient()?.email }}</p>
-        <p><strong>{{ 'PATIENTS.USERNAME' | translate }}:</strong> {{ patient()?.username }}</p>
-        <p><strong>{{ 'PATIENTS.GENDER' | translate }}:</strong> {{ patient()?.gender }}</p>
-        <p><strong>{{ 'PATIENTS.BIRTHDATE' | translate }}:</strong> {{ patient()?.birthdate | date }}</p>
-        <p><strong>{{ 'PATIENTS.START_DATE' | translate }}:</strong> {{ patient()?.startDate | date }}</p>
-        <p><strong>{{ 'PATIENTS.END_DATE' | translate }}:</strong> {{ patient()?.endDate | date }}</p>
-        <p><strong>{{ 'PATIENTS.NEWSLETTER' | translate }}:</strong> {{ patient()?.newsletter ? 'Yes' : 'No' }}</p>
-        <p><strong>{{ 'PATIENTS.NOTES' | translate }}:</strong> {{ patient()?.notes }}</p>
+        <p><strong>{{ 'PATIENTS.EMAIL' | translate }}:</strong> {{ patient.email }}</p>
+        <p><strong>{{ 'PATIENTS.USERNAME' | translate }}:</strong> {{ patient.username }}</p>
+        <p><strong>{{ 'PATIENTS.GENDER' | translate }}:</strong> {{ patient.gender }}</p>
+        <p><strong>{{ 'PATIENTS.BIRTHDATE' | translate }}:</strong> {{ patient.birthdate | date }}</p>
+        <p><strong>{{ 'PATIENTS.START_DATE' | translate }}:</strong> {{ patient.startDate | date }}</p>
+        <p><strong>{{ 'PATIENTS.END_DATE' | translate }}:</strong> {{ patient.endDate | date }}</p>
+        <p><strong>{{ 'PATIENTS.NEWSLETTER' | translate }}:</strong> {{ patient.newsletter ? 'Yes' : 'No' }}</p>
+        <p><strong>{{ 'PATIENTS.NOTES' | translate }}:</strong> {{ patient.notes }}</p>
       </section>
     </section>
   } @else {

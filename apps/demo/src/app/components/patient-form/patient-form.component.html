@@ -1,6 +1,6 @@
 <div class="patient-edit u-flex-center">
   <button
-    class="patient-edit__overlay"
+    class="overlay"
     aria-label="Close modal overlay"
     (click)="cancel()"
   ></button>
@@ -12,7 +12,7 @@
       aria-modal="true"
       aria-label="Edit Patient"
     >
-      <form class="patient-edit__form" [formGroup]="form" (ngSubmit)="save()">
+      <form class="patient-edit__form" [formGroup]="form" (ngSubmit)="submitPatientForm()">
         <h2 class="patient-edit__title">{{ 'PATIENTS.EDIT_TITLE' | translate }}</h2>
 
         <mat-form-field class="patient-edit__field" appearance="fill">
@@ -105,7 +105,7 @@
       </form>
     </section>
   } @else {
-    <div class="u-flex-center" style="padding: 2rem;">
+    <div class="patient-edit__loader u-flex-center">
       <mat-spinner diameter="40" strokeWidth="4" />
     </div>
   }

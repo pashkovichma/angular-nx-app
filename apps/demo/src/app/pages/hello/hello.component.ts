@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '@translate';
+import { finalize } from 'rxjs';
 
 import { AppRoutes } from '../../app.routes';
 import { PatientCardComponent } from '../../components/patient-card/patient-card.component';
@@ -27,6 +28,7 @@ import { PatientRoutes } from '../../shared/constants/routes.constants';
   ],
   templateUrl: './hello.component.html',
   styleUrls: ['./hello.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HelloComponent {
   private readonly route = inject(ActivatedRoute);
@@ -67,20 +69,25 @@ export class HelloComponent {
     }
 
     this.loading = true;
-
-    this.patientService.getPatientsPage(this.page, PATIENT_PAGINATION_LIMIT).subscribe({
-      next: (newPatients) => {
-        if (newPatients.length < PATIENT_PAGINATION_LIMIT) {
-          this.allPatientsLoaded = true;
-        }
-        this.patientStateService.addPatients(newPatients);
-        this.page += 1;
-      },
-      error: (err) => console.error('Error loading patients:', err),
-      complete: () => {
-        this.loading = false;
-      },
-    });
+    this.patientService
+      .getPatientsPage(this.page, PATIENT_PAGINATION_LIMIT)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+      )
+      .subscribe({
+        next: (newPatients) => {
+          if (newPatients.length < PATIENT_PAGINATION_LIMIT) {
+            this.allPatientsLoaded = true;
+          }
+          this.patientStateService.addPatients(newPatients);
+          this.page += 1;
+        },
+        error: (err) => {
+          console.error('Error loading patients:', err);
+        },
+      });
   }
 
   onScroll(event: Event): void {
