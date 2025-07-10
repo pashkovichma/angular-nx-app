@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -34,6 +34,7 @@ export class PatientViewComponent {
   private readonly router = inject(Router);
   private readonly patientService = inject(PatientService);
   private readonly patientUiService = inject(PatientUiService);
+  private readonly destroyRef = inject(DestroyRef);
 
   private readonly patientId = this.route.snapshot.paramMap.get('patientId') ?? '';
   readonly userId = this.route.parent?.snapshot.paramMap.get('userId') ?? '';
@@ -56,6 +57,11 @@ export class PatientViewComponent {
       return;
     }
 
-    this.patientUiService.confirmAndDeletePatient(patient, () => this.closeView());
+    this.patientUiService
+      .confirmAndDeletePatient(patient)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.closeView(),
+      });
   }
 }

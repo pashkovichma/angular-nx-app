@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule, MatButtonModule],
   templateUrl: './action-icon-button.component.html',
-  styleUrls: ['./action-icon-button.component.scss'],
 })
 export class ActionIconButtonComponent {
   readonly icon = input<string>();

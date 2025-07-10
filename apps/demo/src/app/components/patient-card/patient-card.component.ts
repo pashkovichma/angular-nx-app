@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -31,6 +32,7 @@ import { ActionIconButtonComponent } from '../action-icon-button/action-icon-but
 })
 export class PatientCardComponent {
   private readonly patientUiService = inject(PatientUiService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly PatientRoutes = PatientRoutes;
 
@@ -42,6 +44,6 @@ export class PatientCardComponent {
       return;
     }
 
-    this.patientUiService.confirmAndDeletePatient(patient);
+    this.patientUiService.confirmAndDeletePatient(patient).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 }

@@ -15,4 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 export class DeleteConfirmDialogComponent {
   readonly dialogRef = inject(MatDialogRef<DeleteConfirmDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA) as { name: string };
+
+  confirm(): void {
+    this.dialogRef.close(true);
+  }
 }

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, Signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '@translate';
-import { finalize } from 'rxjs';
 
 import { AppRoutes } from '../../app.routes';
 import { PatientCardComponent } from '../../components/patient-card/patient-card.component';
 import { AuthService } from '../../services/auth.service';
+import { LoaderService } from '../../services/loader.service';
 import { PatientStateService } from '../../services/patient-state.service';
-import { PatientService } from '../../services/patient.service';
+import { Patient, PatientService } from '../../services/patient.service';
 import type { User } from '../../services/user.model';
 import { PATIENT_PAGINATION_LIMIT, SCROLL_THRESHOLD_PX } from '../../shared/constants/constants';
 import { PatientRoutes } from '../../shared/constants/routes.constants';
@@ -36,25 +36,28 @@ export class HelloComponent {
   private readonly patientService = inject(PatientService);
   private readonly patientStateService = inject(PatientStateService);
 
+  protected readonly loaderService = inject(LoaderService);
+  protected readonly userId: string;
   protected readonly AppRoutes = AppRoutes;
   protected readonly PatientRoutes = PatientRoutes;
 
-  readonly userId = (() => {
+  readonly user = signal<User | null>(null);
+  readonly patientList: Signal<Patient[]> = this.patientStateService.patients;
+
+  private readonly paginationData = {
+    pageSize: PATIENT_PAGINATION_LIMIT,
+    page: 1,
+  };
+
+  private allPatientsLoaded = false;
+
+  constructor() {
     const id = this.route.snapshot.paramMap.get('userId');
     if (!id) {
       throw new Error('Missing required route param: userId');
     }
-    return id;
-  })();
+    this.userId = id;
 
-  readonly user = signal<User | null>(null);
-  readonly patientList = this.patientStateService.patients;
-
-  private page = 1;
-  private loading = false;
-  private allPatientsLoaded = false;
-
-  constructor() {
     this.loadPatients();
 
     this.authService.getUser(this.userId).subscribe({
@@ -64,30 +67,22 @@ export class HelloComponent {
   }
 
   loadPatients(): void {
-    if (this.loading || this.allPatientsLoaded) {
+    if (this.allPatientsLoaded) {
       return;
     }
 
-    this.loading = true;
-    this.patientService
-      .getPatientsPage(this.page, PATIENT_PAGINATION_LIMIT)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        }),
-      )
-      .subscribe({
-        next: (newPatients) => {
-          if (newPatients.length < PATIENT_PAGINATION_LIMIT) {
-            this.allPatientsLoaded = true;
-          }
-          this.patientStateService.addPatients(newPatients);
-          this.page += 1;
-        },
-        error: (err) => {
-          console.error('Error loading patients:', err);
-        },
-      });
+    this.patientService.getPatientsPage(this.paginationData.page, this.paginationData.pageSize).subscribe({
+      next: (newPatients) => {
+        if (newPatients.length < this.paginationData.pageSize) {
+          this.allPatientsLoaded = true;
+        }
+        this.patientStateService.addPatients(newPatients);
+        this.paginationData.page += 1;
+      },
+      error: (err) => {
+        console.error('Error loading patients:', err);
+      },
+    });
   }
 
   onScroll(event: Event): void {

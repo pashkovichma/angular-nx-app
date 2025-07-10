@@ -1,5 +1,6 @@
+@let currentUser = user();
 <div class="hello">
-  @if (user(); as currentUser) {
+  @if (currentUser) {
     <h1 class="hello__title">{{ 'HELLO.TITLE' | translate }}, {{ currentUser.name }}</h1>
   }
   <div class="hello__lang-switcher">

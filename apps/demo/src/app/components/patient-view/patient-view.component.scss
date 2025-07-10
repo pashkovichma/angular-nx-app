@@ -44,34 +44,6 @@
     }
   }
 
-  &__button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-
-    mat-icon {
-      font-size: type.$font-size-lg;
-      color: color.$azure-blue-dark;
-    }
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    @media (max-width: 380px) {
-      width: 100%;
-      min-width: 0;
-      height: auto;
-    }
-  }
-
   &__close-button {
     background: transparent;
     border: none;

@@ -8,6 +8,7 @@ import { provideTranslate } from '@translate';
 import { AuthInterceptor } from 'auth';
 
 import { routes } from './app.routes';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { NotFoundInterceptor } from './interceptors/not-found.interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: NotFoundInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     importProvidersFrom(BrowserAnimationsModule, FormsModule),
     provideRouter(routes),
     provideTranslate(),
