@@ -1,0 +1,48 @@
+@use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
+@use 'sizes/shadows' as shadow;
+@use 'typography/fonts' as type;
+@use 'sizes/buttons' as button;
+@use 'sizes/modals' as modal;
+@use 'animations/fade';
+@use 'modals/modal-base';
+
+.patient-edit {
+  position: fixed;
+  inset: 0;
+  font-family: type.$font-family-base;
+
+  &__modal {
+    @extend .modal-base;
+  }
+
+  &__title {
+    font-size: type.$font-size-xl;
+    margin-bottom: space.$spacing-md;
+    color: color.$azure-blue-dark;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: space.$spacing-md;
+  }
+
+  &__field {
+    width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: space.$spacing-md;
+
+    button {
+      min-width: button.$button-min-width;
+    }
+  }
+
+  &__loader {
+    padding: space.$spacing-lg;
+  }
+}

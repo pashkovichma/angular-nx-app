@@ -1,4 +1,4 @@
-<mat-form-field appearance="fill">
+<mat-form-field class="language-switcher__field" appearance="outline">
   <mat-label>Language</mat-label>
   <mat-select [value]="currentLang" (selectionChange)="switchLanguage($event.value)">
     @for (lang of languages; track lang.code) {

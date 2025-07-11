@@ -1,20 +1,53 @@
 {
+  "COMMON": {
+    "CANCEL": "Anuluj",
+    "DELETE": "Usuń",
+    "DELETE_CONFIRM": "Czy na pewno chcesz usunąć {{name}}?",
+    "SAVE": "Zapisz"
+  },
  "LOGIN": {
-    "TITLE": "Zaloguj się do MockAPI",
+    "BUTTON": "Zaloguj się",
+    "EMAIL_INVALID": "Proszę podać poprawny adres email.",
     "EMAIL_LABEL": "Email",
     "EMAIL_PLACEHOLDER": "Wprowadź email",
     "EMAIL_REQUIRED": "Email jest wymagany.",
-    "EMAIL_INVALID": "Proszę podać poprawny adres email.",
+    "ERROR_SERVER": "Błąd serwera, spróbuj ponownie później.",
+    "INVALID_CREDENTIALS": "Nieprawidłowy email lub hasło",
     "PASSWORD_LABEL": "Hasło",
-    "PASSWORD_PLACEHOLDER": "Wprowadź hasło",
-    "PASSWORD_REQUIRED": "Hasło jest wymagane.",
     "PASSWORD_MINLENGTH": "Hasło musi mieć co najmniej {{ required }} znaków (obecnie {{ actual }}).",
     "PASSWORD_PATTERN": "Hasło musi zawierać co najmniej jedną dużą literę, jedną małą literę i jedną cyfrę.",
-    "BUTTON": "Zaloguj się",
-    "INVALID_CREDENTIALS": "Nieprawidłowy email lub hasło"
+    "PASSWORD_PLACEHOLDER": "Wprowadź hasło",
+    "PASSWORD_REQUIRED": "Hasło jest wymagane.",
+    "TITLE": "Zaloguj się do MockAPI"
   },
-  "HELLO_WORLD": {
-    "TITLE": "Witaj świecie",
-    "DESCRIPTION": "Zalogowano pomyślnie i dotarłeś na tę stronę!"
+  "GENDER": {
+    "FEMALE": "kobieta",
+    "MALE": "mężczyzna"
+  },
+  "HELLO": {
+    "TITLE": "Witaj"
+  },
+  "PATIENTS": {
+    "ADD": "Dodaj pacjenta",
+    "BIRTHDATE": "Data urodzenia",
+    "DELETE_CONFIRM": "Czy na pewno chcesz usunąć {{name}}?",
+    "DELETE_SUCCESS": "Pacjent został pomyślnie usunięty.",
+    "EDIT_TITLE": "Edytuj pacjenta",
+    "EMAIL": "Email",
+    "END_DATE": "Data zakończenia",
+    "FIRSTNAME": "Imię",
+    "GENDER": "Płeć",
+    "LASTNAME": "Nazwisko",
+    "NEWSLETTER": "Subskrypcja",
+    "NOTES": "Notatki",
+    "START_DATE": "Data rozpoczęcia",
+    "USERNAME": "Nazwa użytkownika"
+
+  },
+  "VALIDATION": {
+    "EMAIL": "Wprowadź poprawny adres e-mail (dozwolone są litery, cyfry oraz znaki . , / * + _ % -).",
+    "MAXLENGTH": "Maksymalna długość to {{requiredLength}} znaków (obecnie {{actualLength}}).",
+    "MINLENGTH": "Minimalna długość to {{required}} znaków (obecnie {{actual}}).",
+    "REQUIRED": "To pole jest wymagane."
   }
 }

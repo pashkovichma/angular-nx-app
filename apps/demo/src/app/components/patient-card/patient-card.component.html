@@ -1,0 +1,21 @@
+@if (patient(); as p) {
+  <mat-card class="patient-card">
+    <mat-card-title class="patient-card__title">
+      {{ p.firstName }} {{ p.lastName }}
+    </mat-card-title>
+    <mat-card-content class="patient-card__content">
+      <p class="patient-card__birthdate">
+        {{ 'PATIENTS.BIRTHDATE' | translate }}: {{ p.birthdate | date }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="patient-card__actions">
+      <a [routerLink]="[PatientRoutes.Base, p.id, PatientRoutes.View]">
+        <app-action-icon-button icon="visibility" />
+      </a>
+      <a [routerLink]="[PatientRoutes.Base, p.id, PatientRoutes.Edit]">
+        <app-action-icon-button icon="edit" />
+      </a>
+      <app-action-icon-button icon="delete" (click)="handleDelete()" />
+    </mat-card-actions>
+  </mat-card>
+}

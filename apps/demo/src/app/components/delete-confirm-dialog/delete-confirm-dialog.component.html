@@ -1,0 +1,14 @@
+<div class="delete-confirm-dialog">
+  <div class="delete-confirm-dialog__message">
+    {{ 'COMMON.DELETE_CONFIRM' | translate:{ name: data.name } }}
+  </div>
+
+  <div class="delete-confirm-dialog__actions">
+    <button mat-stroked-button (click)="dialogRef.close(false)">
+      {{ 'COMMON.CANCEL' | translate }}
+    </button>
+    <button mat-raised-button color="warn" (click)="dialogRef.close(true)">
+      {{ 'COMMON.DELETE' | translate }}
+    </button>
+  </div>
+</div>

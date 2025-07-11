@@ -13,6 +13,7 @@ export function provideTranslate(): ApplicationConfig['providers'] {
           provide: TranslateLoader,
           useFactory: () => {
             const http = inject(HttpClient);
+
             return new TranslateHttpLoader(http, './assets/i18n/', '.json');
           },
         },

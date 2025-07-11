@@ -16,8 +16,15 @@ export class AuthService {
 
   login(creds: LoginCredentials): Observable<User[]> {
     const url = `${environment.apiUrl}${ApiEndpoint.Users}`;
+
     return this.http.get<User[]>(url, {
       params: toHttpParams({ ...creds }),
     });
+  }
+
+  getUser(id: string): Observable<User> {
+    const url = `${environment.apiUrl}${ApiEndpoint.Users}/${id}`;
+
+    return this.http.get<User>(url);
   }
 }

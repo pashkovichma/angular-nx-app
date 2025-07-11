@@ -1,0 +1,63 @@
+@use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
+@use 'sizes/shadows' as shadow;
+@use 'typography/fonts' as type;
+@use 'animations/fade';
+@use 'modals/modal-base';
+
+.patient-view {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  font-family: type.$font-family-base;
+
+  &__modal {
+    @extend .modal-base;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: space.$spacing-md;
+  }
+
+  &__title {
+    font-size: type.$font-size-xl;
+    margin: 0;
+    color: color.$azure-blue-dark;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: space.$spacing-sm;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    mat-icon {
+      font-size: type.$font-size-xl;
+      color: color.$azure-blue-dark;
+    }
+  }
+
+  &__info p {
+    margin: space.$spacing-xs 0;
+    font-size: type.$font-size-sm;
+    color: color.$azure-blue-dark;
+  }
+}

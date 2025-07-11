@@ -1,0 +1,38 @@
+@use 'colors/azure-blue' as color;
+@use 'sizes/spacing' as space;
+@use 'sizes/shadows' as shadow;
+@use 'typography/fonts' as type;
+
+.delete-confirm-dialog {
+  background-color: color.$azure-blue-light;
+  padding: space.$spacing-md;
+  border-radius: space.$border-radius-lg;
+  box-shadow: shadow.$shadow-md;
+  font-family: type.$font-family-base;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  &__message {
+    font-size: type.$font-size-base;
+    color: color.$azure-blue-dark;
+    margin-bottom: space.$spacing-md;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: space.$spacing-sm;
+
+    button {
+      min-width: 100px;
+      flex: 1 1 auto;
+      white-space: nowrap;
+    }
+  }
+}

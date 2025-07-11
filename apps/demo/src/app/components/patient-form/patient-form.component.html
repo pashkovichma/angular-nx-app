@@ -1,0 +1,112 @@
+<div class="patient-edit u-flex-center">
+  <button
+    class="overlay"
+    aria-label="Close modal overlay"
+    (click)="cancel()"
+  ></button>
+
+  @if (isLoaded()) {
+    <section
+      class="patient-edit__modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Edit Patient"
+    >
+      <form class="patient-edit__form" [formGroup]="form" (ngSubmit)="submitPatientForm()">
+        <h2 class="patient-edit__title">{{ 'PATIENTS.EDIT_TITLE' | translate }}</h2>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.FIRSTNAME' | translate }}</mat-label>
+          <input matInput formControlName="firstName" />
+          <app-form-field-error [control]="form.get('firstName')" />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.LASTNAME' | translate }}</mat-label>
+          <input matInput formControlName="lastName" />
+          <app-form-field-error [control]="form.get('lastName')" />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.EMAIL' | translate }}</mat-label>
+          <input matInput formControlName="email" type="email" />
+          <app-form-field-error [control]="form.get('email')" />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.USERNAME' | translate }}</mat-label>
+          <input matInput formControlName="username" />
+          <app-form-field-error [control]="form.get('username')" />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.GENDER' | translate }}</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="female">{{ 'GENDER.FEMALE' | translate }}</mat-option>
+            <mat-option value="male">{{ 'GENDER.MALE' | translate }}</mat-option>
+          </mat-select>
+          <app-form-field-error [control]="form.get('gender')" />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.BIRTHDATE' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="birthdate"
+            [matDatepicker]="birthPicker"
+            [matDatepickerFilter]="birthdateFilter"
+          />
+          <mat-datepicker-toggle matSuffix [for]="birthPicker" />
+          <mat-datepicker #birthPicker />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.START_DATE' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="startDate"
+            [matDatepicker]="startPicker"
+            [matDatepickerFilter]="startDateFilter"
+          />
+          <mat-datepicker-toggle matSuffix [for]="startPicker" />
+          <mat-datepicker #startPicker />
+        </mat-form-field>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.END_DATE' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="endDate"
+            [matDatepicker]="endPicker"
+            [matDatepickerFilter]="endDateFilter"
+          />
+          <mat-datepicker-toggle matSuffix [for]="endPicker" />
+          <mat-datepicker #endPicker />
+        </mat-form-field>
+
+        <mat-checkbox formControlName="newsletter">
+          {{ 'PATIENTS.NEWSLETTER' | translate }}
+        </mat-checkbox>
+
+        <mat-form-field class="patient-edit__field" appearance="fill">
+          <mat-label>{{ 'PATIENTS.NOTES' | translate }}</mat-label>
+          <textarea matInput formControlName="notes" rows="4"></textarea>
+          <app-form-field-error [control]="form.get('notes')" />
+        </mat-form-field>
+
+        <div class="patient-edit__actions">
+          <button mat-raised-button color="primary" type="submit">
+            {{ 'COMMON.SAVE' | translate }}
+          </button>
+          <button mat-stroked-button type="button" (click)="cancel()">
+            {{ 'COMMON.CANCEL' | translate }}
+          </button>
+        </div>
+      </form>
+    </section>
+  } @else {
+    <div class="patient-edit__loader u-flex-center">
+      <mat-spinner diameter="40" strokeWidth="4" />
+    </div>
+  }
+</div>

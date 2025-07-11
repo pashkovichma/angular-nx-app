@@ -6,14 +6,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '@translate';
 import { AuthLocalStorageKey, LoginCredentials } from 'auth';
 import { finalize, take } from 'rxjs/operators';
-import { EMAIL_PATTERN, PASSWORD_PATTERN } from 'utils';
 
+import { AppRoutes } from '../../app.routes';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user.model';
+import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../shared/validators/patterns';
 
 @Component({
   selector: 'app-login',
@@ -35,9 +36,9 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
 
   readonly loginForm: FormGroup<ControlsOf<LoginCredentials>>;
-
   readonly loading = signal(false);
   readonly errorMessage = signal<string | null>(null);
   readonly loginError = signal<unknown | null>(null);
@@ -59,7 +60,6 @@ export class LoginComponent {
   login(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
-
       return;
     }
 
@@ -67,10 +67,9 @@ export class LoginComponent {
     this.loading.set(true);
 
     const { email, password } = this.loginForm.value;
-
     const creds: LoginCredentials = {
-      email: email.trim(),
-      password: password.trim(),
+      email: email?.trim() ?? '',
+      password: password?.trim() ?? '',
     };
 
     this.auth
@@ -82,22 +81,25 @@ export class LoginComponent {
       .subscribe({
         next: (users: User[]) => {
           if (!users.length) {
-            this.loginForm.setErrors({ invalidCreds: true });
+            this.markInvalidCreds();
             return;
           }
-
           this.handleSuccess(users[0]);
         },
         error: (err) => {
           this.loginError.set(err);
-          this.loginForm.setErrors({ invalidCreds: true });
-          this.errorMessage.set('Server error, please try again later.');
+          this.markInvalidCreds();
+          this.errorMessage.set(this.translate.instant('LOGIN.ERROR.SERVER'));
         },
       });
   }
 
   private handleSuccess({ id }: User): void {
     localStorage.setItem(AuthLocalStorageKey.Token, `mock-token-${id}`);
-    this.router.navigate(['/hello']);
+    this.router.navigate(['/', AppRoutes.Hello, `${id}`]);
+  }
+
+  private markInvalidCreds(): void {
+    this.loginForm.setErrors({ invalidCreds: true });
   }
 }
