@@ -1,83 +1,14 @@
-@let emailCtrl = loginForm.controls.email;
-@let emailErr  = emailCtrl.errors;
-@let passwordCtrl = loginForm.controls.password;
-@let pwdErr = passwordCtrl.errors;
-@let minErr = pwdErr?.['minlength'];
 <div class="login u-flex-center u-vh">
   <div class="login__lang-switcher">
     <lib-translate-language-switcher />
   </div>
   <h2 class="login__title">{{ 'LOGIN.TITLE' | translate }}</h2>
-  <form
-    class="login__form"
-    novalidate
-    [formGroup]="loginForm"
-    (ngSubmit)="login()"
+  <button
+    mat-raised-button
+    color="primary"
+    class="login__button"
+    (click)="login()"
   >
-    <mat-form-field appearance="outline" class="login__field">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        formControlName="email"
-        type="email"
-        autocomplete="username"
-        [placeholder]="'LOGIN.EMAIL_PLACEHOLDER' | translate"
-      />
-      @if ( emailCtrl.touched && emailCtrl.invalid) {
-        <mat-error>
-          @if (emailErr?.['required']) {
-            <span>{{ 'LOGIN.EMAIL_REQUIRED' | translate }}</span>
-          }
-          @if (emailErr?.['pattern']) {
-            <span>{{ 'LOGIN.EMAIL_INVALID' | translate }}</span>
-          }
-        </mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="login__field">
-      <mat-label>{{ 'LOGIN.PASSWORD_LABEL' | translate }}</mat-label>
-      <input
-        matInput
-        formControlName="password"
-        type="password"
-        autocomplete="current-password"
-        [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
-      />
-      @if (passwordCtrl.touched && passwordCtrl.invalid) {
-        <mat-error>
-          @if (pwdErr?.['required']) {
-            <span>{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</span>
-          }
-          @if (minErr) {
-            <span>
-              {{ 'LOGIN.PASSWORD_MINLENGTH' | translate: { required: minErr.requiredLength, actual: minErr.actualLength } }}
-            </span>
-          }
-          @if (pwdErr?.['pattern']) {
-            <span>
-              {{ 'LOGIN.PASSWORD_PATTERN' | translate }}
-            </span>
-          }
-        </mat-error>
-      }
-    </mat-form-field>
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      class="login__button"
-      [disabled]="loginForm.invalid"
-    >
-      {{ 'LOGIN.BUTTON' | translate }}
-    </button>
-  </form>
-  @if (loginForm.hasError('invalidCreds')) {
-    <p class="login__result">
-      {{ 'LOGIN.INVALID_CREDENTIALS' | translate }}
-    </p>
-  } @else if (errorMessage()) {
-    <p class="login__result">
-      {{ errorMessage() }}
-    </p>
-  }
+    {{ 'LOGIN.BUTTON' | translate }}
+  </button>
 </div>

@@ -1,105 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { ControlsOf, FormBuilder, FormControl, FormGroup } from '@ngneat/reactive-forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthService } from '@auth0/auth0-angular';
+import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '@translate';
-import { AuthLocalStorageKey, LoginCredentials } from 'auth';
-import { finalize, take } from 'rxjs/operators';
 
 import { AppRoutes } from '../../app.routes';
-import { AuthService } from '../../services/auth.service';
-import { User } from '../../services/user.model';
-import { EMAIL_PATTERN, PASSWORD_PATTERN } from '../../shared/validators/patterns';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    TranslateModule,
-    LanguageSwitcherComponent,
-  ],
+  imports: [CommonModule, MatButtonModule, TranslateModule, LanguageSwitcherComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly translate = inject(TranslateService);
 
-  readonly loginForm: FormGroup<ControlsOf<LoginCredentials>>;
-  readonly loading = signal(false);
-  readonly errorMessage = signal<string | null>(null);
-  readonly loginError = signal<unknown | null>(null);
+  private readonly currentUser = toSignal(this.auth.user$, { initialValue: null });
 
-  constructor() {
-    this.loginForm = this.createLoginForm();
-  }
-
-  private createLoginForm(): FormGroup<{
-    email: FormControl<string>;
-    password: FormControl<string>;
-  }> {
-    return this.fb.group({
-      email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(PASSWORD_PATTERN)]],
+  login(): void {
+    this.auth.loginWithRedirect({
+      appState: {
+        target: `/${AppRoutes.Hello}`,
+      },
     });
   }
 
-  login(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
+  private readonly redirectEffect = effect(() => {
+    const user = this.currentUser();
+
+    if (user?.sub) {
+      this.router.navigate(['/', AppRoutes.Hello, user.sub]);
     }
-
-    this.errorMessage.set(null);
-    this.loading.set(true);
-
-    const { email, password } = this.loginForm.value;
-    const creds: LoginCredentials = {
-      email: email?.trim() ?? '',
-      password: password?.trim() ?? '',
-    };
-
-    this.auth
-      .login(creds)
-      .pipe(
-        take(1),
-        finalize(() => this.loading.set(false)),
-      )
-      .subscribe({
-        next: (users: User[]) => {
-          if (!users.length) {
-            this.markInvalidCreds();
-            return;
-          }
-          this.handleSuccess(users[0]);
-        },
-        error: (err) => {
-          this.loginError.set(err);
-          this.markInvalidCreds();
-          this.errorMessage.set(this.translate.instant('LOGIN.ERROR.SERVER'));
-        },
-      });
-  }
-
-  private handleSuccess({ id }: User): void {
-    localStorage.setItem(AuthLocalStorageKey.Token, `mock-token-${id}`);
-    this.router.navigate(['/', AppRoutes.Hello, `${id}`]);
-  }
-
-  private markInvalidCreds(): void {
-    this.loginForm.setErrors({ invalidCreds: true });
-  }
+  });
 }

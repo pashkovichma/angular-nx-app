@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from '@translate';
 
 import { AppRoutes } from '../../app.routes';
 import { PatientCardComponent } from '../../components/patient-card/patient-card.component';
-import { AuthService } from '../../services/auth.service';
 import { LoaderService } from '../../services/loader.service';
 import { PatientStateService } from '../../services/patient-state.service';
 import { Patient, PatientService } from '../../services/patient.service';
@@ -42,6 +43,7 @@ export class HelloComponent {
   protected readonly PatientRoutes = PatientRoutes;
 
   readonly user = signal<User | null>(null);
+  readonly userSig = toSignal(this.authService.user$, { initialValue: null });
   readonly patientList: Signal<Patient[]> = this.patientStateService.patients;
 
   private readonly paginationData = {
@@ -59,11 +61,6 @@ export class HelloComponent {
     this.userId = id;
 
     this.loadPatients();
-
-    this.authService.getUser(this.userId).subscribe({
-      next: (u) => this.user.set(u),
-      error: () => this.user.set(null),
-    });
   }
 
   loadPatients(): void {
@@ -81,6 +78,14 @@ export class HelloComponent {
       },
       error: (err) => {
         console.error('Error loading patients:', err);
+      },
+    });
+  }
+
+  logout(): void {
+    this.authService.logout({
+      logoutParams: {
+        returnTo: window.location.origin,
       },
     });
   }
