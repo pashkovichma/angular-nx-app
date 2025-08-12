@@ -1,30 +1,42 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { LoginCredentials } from 'auth';
-import { Observable } from 'rxjs';
-import { toHttpParams } from 'utils';
+import { Injectable, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
-import { environment } from '../../environments/environment';
-import { ApiEndpoint } from '../core/api-endpoints';
-import { User } from './user.model';
+import { AppRoutes } from '../app.routes';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly http = inject(HttpClient);
+  private readonly auth0 = inject(Auth0Service);
+  private readonly router = inject(Router);
 
-  login(creds: LoginCredentials): Observable<User[]> {
-    const url = `${environment.apiUrl}${ApiEndpoint.Users}`;
+  readonly currentUser = toSignal(this.auth0.user$, { initialValue: null });
+  readonly appState = toSignal(this.auth0.appState$, { initialValue: null });
 
-    return this.http.get<User[]>(url, {
-      params: toHttpParams({ ...creds }),
+  login(): void {
+    this.auth0.loginWithRedirect({
+      appState: {
+        target: `/${AppRoutes.Hello}`,
+      },
     });
   }
 
-  getUser(id: string): Observable<User> {
-    const url = `${environment.apiUrl}${ApiEndpoint.Users}/${id}`;
-
-    return this.http.get<User>(url);
+  logout(): void {
+    this.auth0.logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   }
+
+  readonly redirectEffect = effect(() => {
+    const user = this.currentUser();
+    const state = this.appState();
+
+    if (user?.sub && state?.target) {
+      this.router.navigate(['/', AppRoutes.Hello, user.sub]);
+    }
+  });
 }

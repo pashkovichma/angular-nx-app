@@ -39,7 +39,10 @@
         ],
         "scripts": [],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/styles/src/lib"]
+          "includePaths": [
+            "libs/styles/src/lib",
+            "apps/demo/src/styles"
+          ]
         }
       },
       "configurations": {

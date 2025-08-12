@@ -7,6 +7,14 @@
     <div class="hello__lang-switcher">
       <lib-translate-language-switcher />
     </div>
+    <button
+      mat-stroked-button
+      color="warn"
+      class="hello__logout-button"
+      (click)="logout()"
+    >
+      {{ 'LOGIN.LOGOUT' | translate }}
+    </button>
   </div>
 
   <div class="hello__actions">

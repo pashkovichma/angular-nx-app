@@ -13,6 +13,7 @@
     "EMAIL_REQUIRED": "Email jest wymagany.",
     "ERROR_SERVER": "Błąd serwera, spróbuj ponownie później.",
     "INVALID_CREDENTIALS": "Nieprawidłowy email lub hasło",
+    "LOGOUT": "Wyloguj się",
     "PASSWORD_LABEL": "Hasło",
     "PASSWORD_MINLENGTH": "Hasło musi mieć co najmniej {{ required }} znaków (obecnie {{ actual }}).",
     "PASSWORD_PATTERN": "Hasło musi zawierać co najmniej jedną dużą literę, jedną małą literę i jedną cyfrę.",

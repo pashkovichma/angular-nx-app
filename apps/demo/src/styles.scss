@@ -1,3 +1,9 @@
+@use 'styles/breakpoints' as bp;
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
 @import "node_modules/@angular/material/prebuilt-themes/azure-blue.css";
 
 /* Roboto Light 300 */
@@ -76,6 +82,49 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-size: var(--fs-base);
+  line-height: 1.5;
+}
+
+h1 { font-size: var(--fs-h1); margin: 0 0 0.75em; }
+h2 { font-size: var(--fs-h2); margin: 0 0 0.75em; }
+p  { margin: 0 0 1em; }
+
+:root {
+  --max-w: 1200px;
+  --gap: 16px;
+  --gap-lg: 24px;
+
+  --fs-base: clamp(14px, 1.5vw, 16px);
+  --fs-h1: clamp(24px, 4vw, 36px);
+  --fs-h2: clamp(20px, 3vw, 28px);
+}
+
+.container {
+  margin-inline: auto;
+  padding-inline: var(--gap);
+  max-width: var(--max-w);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+}
+
+@media (min-width: bp.$bp-md) {
+  .grid--2 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: bp.$bp-lg) {
+  .grid--3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+.card {
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
 }
 
 .u-flex-center {
