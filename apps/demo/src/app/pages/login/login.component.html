@@ -2,13 +2,15 @@
   <div class="login__lang-switcher">
     <lib-translate-language-switcher />
   </div>
-  <h2 class="login__title">{{ 'LOGIN.TITLE' | translate }}</h2>
-  <button
-    mat-raised-button
-    color="primary"
-    class="login__button"
-    (click)="login()"
-  >
-    {{ 'LOGIN.BUTTON' | translate }}
-  </button>
+  <div class="login__card">
+    <h2 class="login__title">{{ 'LOGIN.TITLE' | translate }}</h2>
+      <button
+        mat-raised-button
+        color="primary"
+        class="login__button"
+        (click)="login()"
+      >
+        {{ 'LOGIN.BUTTON' | translate }}
+      </button>
+  </div>
 </div>
